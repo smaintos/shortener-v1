@@ -1,61 +1,65 @@
 // src/components/TxtToPdfConverter.tsx
+
 import React, { useState } from 'react';
-import { jsPDF } from 'jspdf';
+import jsPDF from 'jspdf';
 
 const TxtToPdfConverter: React.FC = () => {
-  const [textContent, setTextContent] = useState('');
-  const [fileName, setFileName] = useState('document.pdf');
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<string>('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result;
-        if (typeof text === 'string') {
-          setTextContent(text);
-        }
-      };
-      reader.readAsText(file);
+    const selectedFile = event.target.files?.[0] || null;
+    if (selectedFile && selectedFile.type === 'text/plain') {
+      setFile(selectedFile);
+      setError('');
+    } else {
+      setFile(null);
+      setError('Veuillez sélectionner un fichier .txt valide.');
     }
   };
 
-  const handleGeneratePdf = () => {
-    const doc = new jsPDF();
-    const lines = doc.splitTextToSize(textContent, 180);
-    doc.text(lines, 10, 10);
-    doc.save(fileName);
+  const handleConvert = () => {
+    if (!file) {
+      setError('Aucun fichier sélectionné.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const textContent = e.target?.result;
+      if (typeof textContent === 'string') {
+        const doc = new jsPDF();
+        doc.text(textContent, 10, 10);
+        doc.save(`${file.name.replace('.txt', '')}.pdf`);
+        setError('');
+      } else {
+        setError('Erreur lors de la lecture du fichier.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   return (
-    <div className="flex flex-col">
-      <h2 className="text-2xl font-bold mb-4 text-center text-slate-100">
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
         Convertisseur TXT en PDF
       </h2>
-      <div className="mb-4">
+      <div className="mb-3">
         <input
           type="file"
           accept=".txt"
           onChange={handleFileChange}
-          className="w-full p-2 border border-slate-600 rounded bg-slate-700 text-slate-100"
-        />
-      </div>
-      <div className="mb-4">
-        <input
-          type="text"
-          value={fileName}
-          onChange={(e) => setFileName(e.target.value)}
-          className="w-full p-2 border border-slate-600 rounded bg-slate-700 text-slate-100"
-          placeholder="Nom du fichier PDF"
+          className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-sm"
         />
       </div>
       <button
-        onClick={handleGeneratePdf}
-        className="w-full p-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700"
-        disabled={!textContent}
+        onClick={handleConvert}
+        className="w-full p-2 bg-red-500 text-white font-medium rounded hover:bg-red-600 transition-colors duration-200 mb-3"
+        disabled={!file}
       >
-        Générer le PDF
+        Convertir en PDF
       </button>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   );
 };

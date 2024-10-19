@@ -1,3 +1,7 @@
+
+
+// src/components/LinkBar.tsx
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import {
@@ -102,14 +106,14 @@ const LinkBar: React.FC = () => {
   };
 
   return (
-    <div className="w-[500px] mx-auto mt-10 p-6 bg-slate-800 shadow-md rounded h-[500px] flex flex-col">
-      <h2 className="text-2xl font-bold mb-4 text-center text-slate-100">
-        Link Shortener v1
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
+        Raccourcisseur d'URL
       </h2>
-      <div className="mb-4">
+      <div className="mb-3">
         <input
           type="text"
-          className="w-full p-2 border border-slate-600 rounded bg-slate-700 text-slate-100 placeholder-slate-400"
+          className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-sm"
           placeholder="Entrez votre lien"
           value={originalLink}
           onChange={(e) => setOriginalLink(e.target.value)}
@@ -117,96 +121,87 @@ const LinkBar: React.FC = () => {
       </div>
       <button
         onClick={handleShortenLink}
-        className="w-full p-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 disabled:bg-blue-500"
+        className="w-full p-2 bg-purple-500 text-white font-medium rounded hover:bg-purple-600 transition-colors duration-200 mb-3"
         disabled={isLoading}
       >
-        Raccourcir le Lien
+        {isLoading ? 'Raccourcissement...' : 'Raccourcir le Lien'}
       </button>
-      {error && <div className="mt-4 text-red-500">{error}</div>}
-
-      {/* Conteneur pour le contenu dynamique */}
-      <div className="mt-6 flex-1 flex items-center justify-center">
-        {isLoading ? (
-          // Spinner de chargement
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-        ) : (
-          shortenedLink && (
-            <div>
-              <h3 className="text-lg font-semibold text-slate-100 text-center">
-                Lien Raccourci :
-              </h3>
-              <a
-                href={shortenedLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-400 break-all text-center block"
-              >
-                {shortenedLink}
-              </a>
-              <div className="mt-4 flex flex-wrap gap-4 justify-center">
-                {/* Bouton Gmail */}
-                <a
-                  href={gmailComposeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red-500 hover:text-red-600 text-2xl"
-                  aria-label="Envoyer par Gmail"
-                >
-                  <FaGoogle />
-                </a>
-                {/* Bouton Twitter */}
-                <a
-                  href={twitterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-500 text-2xl"
-                  aria-label="Partager sur Twitter"
-                >
-                  <FaTwitter />
-                </a>
-                {/* Bouton Facebook */}
-                <a
-                  href={facebookUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 text-2xl"
-                  aria-label="Partager sur Facebook"
-                >
-                  <FaFacebook />
-                </a>
-                {/* Bouton WhatsApp */}
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-500 hover:text-green-600 text-2xl"
-                  aria-label="Partager sur WhatsApp"
-                >
-                  <FaWhatsapp />
-                </a>
-                {/* Bouton LinkedIn */}
-                <a
-                  href={linkedInUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-700 hover:text-blue-800 text-2xl"
-                  aria-label="Partager sur LinkedIn"
-                >
-                  <FaLinkedin />
-                </a>
-                {/* Bouton Email */}
-                <a
-                  href={mailtoUrl}
-                  className="text-slate-100 hover:text-slate-200 text-2xl"
-                  aria-label="Envoyer par Email"
-                >
-                  <FaEnvelope />
-                </a>
-              </div>
-            </div>
-          )
-        )}
-      </div>
+      {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
+      {shortenedLink && (
+        <div className="text-gray-800 text-sm overflow-y-auto flex-1">
+          <h3 className="text-base font-semibold mb-2 text-center">
+            Lien Raccourci :
+          </h3>
+          <a
+            href={shortenedLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 break-all text-center block mb-4"
+          >
+            {shortenedLink}
+          </a>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {/* Bouton Gmail */}
+            <a
+              href={gmailComposeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-500 hover:text-red-600 text-2xl"
+              aria-label="Envoyer par Gmail"
+            >
+              <FaGoogle />
+            </a>
+            {/* Bouton Twitter */}
+            <a
+              href={twitterUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-500 text-2xl"
+              aria-label="Partager sur Twitter"
+            >
+              <FaTwitter />
+            </a>
+            {/* Bouton Facebook */}
+            <a
+              href={facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 text-2xl"
+              aria-label="Partager sur Facebook"
+            >
+              <FaFacebook />
+            </a>
+            {/* Bouton WhatsApp */}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-500 hover:text-green-600 text-2xl"
+              aria-label="Partager sur WhatsApp"
+            >
+              <FaWhatsapp />
+            </a>
+            {/* Bouton LinkedIn */}
+            <a
+              href={linkedInUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:text-blue-800 text-2xl"
+              aria-label="Partager sur LinkedIn"
+            >
+              <FaLinkedin />
+            </a>
+            {/* Bouton Email */}
+            <a
+              href={mailtoUrl}
+              className="text-gray-800 hover:text-gray-900 text-2xl"
+              aria-label="Envoyer par Email"
+            >
+              <FaEnvelope />
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,23 +1,40 @@
 // src/App.tsx
+
 import React from 'react';
 import LinkBar from './components/linkbar';
 import TxtToPdfConverter from './components/TxtToPdfConverter';
+import VirusTotalScanner from './components/VirusTotalScanner';
+import PasswordGenerator from './components/PasswordGenerator';
 import './App.css';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-900 p-10">
-      <h1 className="text-4xl font-bold text-center text-slate-100 mb-10">
+    <div className="min-h-screen bg-gray-100 p-4">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
         Boîte à Outils Web
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="bg-slate-800 p-6 rounded shadow-md">
-          <LinkBar />
+      <div className="flex flex-wrap justify-center gap-4">
+        <div className="w-full sm:w-1/2 md:w-1/3 max-w-xs">
+          <div className="bg-white p-4 rounded shadow-sm h-full max-h-96 overflow-y-auto">
+            <LinkBar />
+          </div>
         </div>
-        <div className="bg-slate-800 p-6 rounded shadow-md">
-          <TxtToPdfConverter />
+        <div className="w-full sm:w-1/2 md:w-1/3 max-w-xs">
+          <div className="bg-white p-4 rounded shadow-sm h-full max-h-96 overflow-y-auto">
+            <TxtToPdfConverter />
+          </div>
         </div>
-        {/* Ajoutez d'autres outils ici en les enveloppant dans des div similaires */}
+        <div className="w-full sm:w-1/2 md:w-1/3 max-w-xs">
+          <div className="bg-white p-4 rounded shadow-sm h-full max-h-96 overflow-y-auto">
+            <VirusTotalScanner />
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2 md:w-1/3 max-w-xs">
+          <div className="bg-white p-4 rounded shadow-sm h-full max-h-96 overflow-y-auto">
+            <PasswordGenerator />
+          </div>
+        </div>
+        {/* Ajoutez d'autres outils ici si nécessaire */}
       </div>
     </div>
   );
