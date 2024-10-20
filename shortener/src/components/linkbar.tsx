@@ -1,5 +1,3 @@
-
-
 // src/components/LinkBar.tsx
 
 import React, { useState } from 'react';
@@ -11,6 +9,7 @@ import {
   FaLinkedin,
   FaEnvelope,
   FaGoogle,
+  FaCopy, // Import de l'icône de copie
 } from 'react-icons/fa';
 
 const LinkBar: React.FC = () => {
@@ -36,8 +35,7 @@ const LinkBar: React.FC = () => {
         },
         {
           headers: {
-            Authorization:
-              'Bearer nmAk2hKgjD320LuhVhEs4LHPrD2UmzFiQfuAfB37kXrVp90g697X1Ej2pphh',
+            Authorization: 'Bearer nmAk2hKgjD320LuhVhEs4LHPrD2UmzFiQfuAfB37kXrVp90g697X1Ej2pphh',
             'Content-Type': 'application/json',
           },
         }
@@ -105,41 +103,57 @@ const LinkBar: React.FC = () => {
     }
   };
 
+  const copyToClipboard = () => {
+    if (shortenedLink) {
+      navigator.clipboard.writeText(shortenedLink);
+      alert('Lien copié dans le presse-papiers !');
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
-        Raccourcisseur d'URL
+      <h2 className="text-xl font-semibold mb-3 text-slate-100 text-center">
+        Link Shortener
       </h2>
       <div className="mb-3">
         <input
           type="text"
-          className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-sm"
-          placeholder="Entrez votre lien"
+          className="w-full p-2 border border-slate-600 rounded bg-slate-700 text-slate-100 text-sm"
+          placeholder="Enter link to shorten..."
           value={originalLink}
           onChange={(e) => setOriginalLink(e.target.value)}
         />
       </div>
       <button
         onClick={handleShortenLink}
-        className="w-full p-2 bg-purple-500 text-white font-medium rounded hover:bg-purple-600 transition-colors duration-200 mb-3"
+        className="w-full p-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition-colors duration-200 mb-3"
         disabled={isLoading}
       >
-        {isLoading ? 'Raccourcissement...' : 'Raccourcir le Lien'}
+        {isLoading ? 'Short...' : 'Shorten Link'}
       </button>
       {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
       {shortenedLink && (
-        <div className="text-gray-800 text-sm overflow-y-auto flex-1">
+        <div className="text-slate-100 text-sm overflow-y-auto flex-1">
           <h3 className="text-base font-semibold mb-2 text-center">
-            Lien Raccourci :
+            SHort Link :
           </h3>
-          <a
-            href={shortenedLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 break-all text-center block mb-4"
-          >
-            {shortenedLink}
-          </a>
+          <div className="flex items-center justify-center mb-4">
+            <a
+              href={shortenedLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 break-all text-center"
+            >
+              {shortenedLink}
+            </a>
+            <button
+              onClick={copyToClipboard}
+              className="ml-2 p-1 text-slate-100 hover:text-slate-200"
+              aria-label="Copier le lien"
+            >
+              <FaCopy />
+            </button>
+          </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {/* Bouton Gmail */}
             <a
@@ -194,7 +208,7 @@ const LinkBar: React.FC = () => {
             {/* Bouton Email */}
             <a
               href={mailtoUrl}
-              className="text-gray-800 hover:text-gray-900 text-2xl"
+              className="text-slate-100 hover:text-slate-200 text-2xl"
               aria-label="Envoyer par Email"
             >
               <FaEnvelope />

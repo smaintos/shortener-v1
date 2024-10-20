@@ -41,20 +41,20 @@ const TxtToPdfConverter: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
-        Convertisseur TXT en PDF
+      <h2 className="text-xl font-semibold mb-3 text-slate-100 text-center">
+        Txt To Pdf
       </h2>
       <div className="mb-3">
         <input
           type="file"
           accept=".txt"
           onChange={handleFileChange}
-          className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-gray-800 text-sm"
+          className="w-full p-2 border border-slate-600 rounded bg-slate-700 text-slate-100 text-sm"
         />
       </div>
       <button
         onClick={handleConvert}
-        className="w-full p-2 bg-red-500 text-white font-medium rounded hover:bg-red-600 transition-colors duration-200 mb-3"
+        className="w-full p-2 bg-red-600 text-white font-medium rounded hover:bg-red-700 transition-colors duration-200 mb-3"
         disabled={!file}
       >
         Convertir en PDF
